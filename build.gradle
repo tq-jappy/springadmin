@@ -1,16 +1,72 @@
 group 'springadmin'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
+buildscript {
+    ext {
+        springBootVersion = '1.2.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework:springloaded:1.2.3.RELEASE")
+        classpath("io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE")
+    }
+}
 
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'io.spring.dependency-management'
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main.compileClasspath += configurations.provided
+    test.compileClasspath += configurations.provided
+    test.runtimeClasspath += configurations.provided
+}
+
+jar {
+    baseName = 'springadmin'
+    version = '0.0.1'
+}
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main")
+        scopes.PROVIDED.plus += [configurations.provided]
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile 'net.sourceforge.nekohtml:nekohtml:1.9.22'
+    compile 'org.webjars:bootstrap:3.2.0'
+    compile 'org.modelmapper.extensions:modelmapper-spring:0.7.4'
+    compile 'com.h2database:h2'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'junit:junit:4.12'
+
+    provided 'org.projectlombok:lombok:1.16.4'
 }
 
 task wrapper(type: Wrapper) {
