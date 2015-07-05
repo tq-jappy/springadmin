@@ -1,0 +1,21 @@
+{
+  "name": "springadmin",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tq-jappy/springadmin",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Takumi Endo"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "admin-lte": "~2.1.2"
+  }
+}

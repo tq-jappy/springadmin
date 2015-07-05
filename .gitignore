@@ -6,3 +6,5 @@
 
 .gradle
 build/
+
+src/main/resources/static/lib
